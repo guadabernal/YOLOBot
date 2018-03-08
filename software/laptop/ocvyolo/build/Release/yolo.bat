@@ -1,0 +1,1 @@
+ocvyolo.exe --cfg=..\..\yolonet\yolo.cfg --model=..\..\yolonet\yolo.weights --class_names=..\..\yolonet\coco.names

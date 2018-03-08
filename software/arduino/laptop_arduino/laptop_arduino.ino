@@ -2,11 +2,11 @@
 
 #define DIR_RIGHT 5
 #define SPEED_RIGHT 6
-#define INPUT_RIGHT A0
+#define INPUT_RIGHT 21
 
 #define DIR_LEFT 8
 #define SPEED_LEFT 9
-#define INPUT_LEFT A1
+#define INPUT_LEFT 20
 
 
 void setup() {
@@ -21,13 +21,27 @@ void setup() {
   
   digitalWrite(DIR_LEFT, HIGH);
   digitalWrite(DIR_RIGHT, LOW);
+
+  pinMode(INPUT_RIGHT, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(INPUT_RIGHT), right_encoder, CHANGE);
   
-  //Serial.begin(9600); 
+  pinMode(INPUT_LEFT, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(INPUT_LEFT), left_encoder, CHANGE);
+  
   Serial1.begin(57600);      //the connection to the computer via bluetooth
-  //Serial1.begin(57600);     //serial is the bluetooth from the controller
+  Serial.begin(57600);     //serial is the bluetooth from the controller
   
 }    
+volatile int rticks = 0;
+volatile int lticks = 0;
 
+void right_encoder() {
+  rticks++;  
+}
+
+void left_encoder() {
+  lticks++;
+}
 
 long t0 = 0;
 bool motoroff = true;
@@ -48,10 +62,9 @@ void loop() {
     int16_t v[2] = {0}; //-128..127 
     n = Serial1.available();
     if (n > 0) Serial1.readBytes((char*)v, n);
-    setThrottle(v[0], v[1]);
+      setThrottle(v[0], v[1]);
     motoroff = true;    
-  }  
-  
+  }    
   delay(10);
 }
 
@@ -73,8 +86,8 @@ void setThrottle(float TL, float TR)
   if (TR >= 0) digitalWrite(DIR_RIGHT, LOW);
   else digitalWrite(DIR_RIGHT, HIGH);
   
-  analogWrite(SPEED_LEFT, abs(TL) / 4);
-  analogWrite(SPEED_RIGHT, abs(TR) / 4);
+  analogWrite(SPEED_LEFT, abs(TL));
+  analogWrite(SPEED_RIGHT, abs(TR));
 
   Serial.print("TL=");
   Serial.print(abs(TL));

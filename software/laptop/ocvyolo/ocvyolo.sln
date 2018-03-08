@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ocvyolo", "ocvyolo.vcxproj", "{31355553-44F6-39D0-948A-5DE1D1027341}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31355553-44F6-39D0-948A-5DE1D1027341}.Release|x64.ActiveCfg = Release|x64
+		{31355553-44F6-39D0-948A-5DE1D1027341}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {93E0319B-E578-30F7-83CA-86B13EEBBE86}
+	EndGlobalSection
+EndGlobal
