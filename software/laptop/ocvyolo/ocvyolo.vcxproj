@@ -97,10 +97,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\dev\ocvcaffe\main.cpp" />
+    <ClInclude Include="SerialPort.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SerialPort.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,10 +16,11 @@ using namespace cv;
 using namespace cv::dnn;
 
 static const char* about =
-"This sample uses You only look once (YOLO)-Detector (https://arxiv.org/abs/1612.08242) to detect objects on camera/video/image.\n"
+"This program uses You only look once (YOLO)-Detector (https://arxiv.org/abs/1612.08242) to detect objects on camera/video/image.\n"
 "Models can be downloaded here: https://pjreddie.com/darknet/yolo/\n"
 "Default network is 416x416.\n"
 "Class names can be downloaded here: https://github.com/pjreddie/darknet/tree/master/data\n";
+
 static const char* params =
 "{ help           | false | print usage         }"
 "{ cfg            |       | model configuration }"
@@ -28,8 +29,88 @@ static const char* params =
 "{ source         |       | video or image for detection}"
 "{ min_confidence | 0.24  | min confidence      }"
 "{ class_names    |       | File with class names, [PATH-TO-DARKNET]/data/coco.names }";
+
+SerialPort serial;
+
+
+void setThrottle(int16_t l, int16_t r) {
+	int16_t v[2] = { l, r };
+	serial.WriteData((char*)v, 4);
+}
+
+void setValues(int16_t l, int16_t r) {
+	int16_t v[2] = { l, r };
+	serial.WriteData((char*)v, 4);
+}
+
+void RobotgoFoward(int16_t, int16_t) {		//1 is foward a distance
+	setValues(ll);
+}
+
+
+void robotStop() {		//0 is stop
+	setValues(0, 0); 
+}
+
+void robotRotate() {	//2 is rotate an angle
+	
+}
+
+
+
 int main(int argc, char** argv)
 {
+	
+	serial.connect("\\\\.\\COM7");
+	if (!serial.IsConnected()) {
+		std::cout << "Error Connecting bluethoot" << std::endl;
+		return -1;
+	}
+	VideoCapture cap1(0);
+	
+
+	bool isDone = false;
+	while(!isDone) {
+	
+		Mat frame1;
+		
+
+		cap1 >> frame1; // get a new frame from camera/video or read image
+		
+		imshow("YOLO: Detections2", frame1);
+		
+		
+
+		int key = cv::waitKey(30);
+		switch (key) {
+		case 'w':
+			setThrottle(100, 100);
+			printf("Sent 200, 200\n");
+			break;
+		case 's':
+			setThrottle(-100, -100);
+			printf("Sent -100, -100\n");
+			break;
+		case 'a':
+			setThrottle(-100, 100);
+			printf("Sent 200, 200\n");
+			break;
+		case 'd':
+			setThrottle(100, -100);
+			printf("Sent -100, -100\n");
+			break;
+		case 27:
+			isDone = true;
+			break;
+		}
+	}
+	
+	setThrottle(0, 0);
+	
+
+
+	return 0;
+	
     CommandLineParser parser(argc, argv, params);
     
 	if (parser.get<bool>("help")) {
