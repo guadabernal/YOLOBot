@@ -43,7 +43,7 @@ void loop() {
       return;    
     }
     if (modeGamepad){
-      setThrottle(v[0], v[1]);
+      setThrottle(v[0]/2, v[1]/2);
       t1 = millis();
       t0 = t1;
       motoroff=false;
@@ -54,7 +54,7 @@ void loop() {
     int16_t v[2] = {0}; //-128..127 
     n = Serial1.available();
     if (n > 0) Serial1.readBytes((char*)v, n);
-    setThrottle(v[0], v[1]);
+    setThrottle(v[0]/2, v[1]/2);
     motoroff = true;    
   }  
 

@@ -1,5 +1,6 @@
 yolonet
 .vs
+*.avi
 *.dir
 *.filters
 *.weights
