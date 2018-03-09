@@ -1,13 +1,4 @@
-#include <robot.h>
-
-// Pin definitions
-#define PIN_DIR_RIGHT 5
-#define PIN_SPEED_RIGHT 6
-#define PIN_INPUT_RIGHT 21
-
-#define PIN_DIR_LEFT 8
-#define PIN_SPEED_LEFT 9
-#define PIN_INPUT_LEFT 20
+#include "robot.h"
 
 Robot robot;
 
@@ -63,10 +54,10 @@ void loop()
   if (n >= 4) {
     int16_t v[2] = {0};
     Serial1.readBytes((char*)v, 4);
+    resetEncoders();
     robot.executeCommand(v[0], v[1]);
   }
-
-  robot.update(lTicks, rTicks);
+  robot.updateState(lTicks, rTicks);
   delay(10);
 }
 
